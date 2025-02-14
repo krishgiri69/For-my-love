@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Eternal Love - Melina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #2a0a0a, #4a1010);
+            font-family: 'Great Vibes', cursive;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .hearts-background {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff3366;
+            animation: float 8s infinite;
+            opacity: 0;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeIn 2s ease-in;
+        }
+
+        h1 {
+            font-size: 5rem;
+            background: linear-gradient(45deg, #ff6b6b, #ff3366);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite alternate;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+            color: #fff;
+            animation: slideIn 2s ease-out;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .photo-frame {
+            background: #ffebee;
+            padding: 1rem;
+            border-radius: 10px;
+            transform: rotate(-3deg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 107, 107, 0.2));
+            z-index: 1;
+        }
+
+        .photo-frame:hover {
+            transform: rotate(2deg) scale(1.05);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: center center;
+            border-radius: 5px;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-frame:hover img {
+            transform: scale(1.1);
+        }
+
+        .love-letter {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 3rem;
+            backdrop-filter: blur(5px);
+            animation: glow 2s infinite alternate;
+        }
+
+        .button {
+            background: #ff3366;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+            background: #ff1a4d;
+        }
+
+        #secretMessage {
+            display: none;
+            margin-top: 2rem;
+            color: white;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            position: relative;
+            transform: scale(0);
+            transition: all 0.5s ease;
+        }
+
+        #secretMessage.revealed {
+            transform: scale(1);
+            animation: heartBeat 1s ease;
+        }
+
+        .floating-text {
+            position: fixed;
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            animation: floatText 8s linear infinite;
+            opacity: 0;
+            z-index: 999;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px #ff3366; }
+            to { box-shadow: 0 0 20px #ff3366; }
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes floatText {
+            0% { transform: translateY(100vh) rotate(-10deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(10deg); opacity: 0; }
+        }
+
+        @media (max-width: 992px) {
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .photo-frame img {
+                height: 300px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hearts-background" id="hearts"></div>
+    
+    <!-- Floating romantic texts -->
+    <div class="floating-text" style="left: 10%">Forever Yours</div>
+    <div class="floating-text" style="left: 30%">My Love</div>
+    <div class="floating-text" style="left: 50%">Melina ❤️</div>
+    <div class="floating-text" style="left: 70%">Happy Valentine's</div>
+
+    <div class="container">
+        <header>
+            <h1>Happy Valentine's Day My love ❤️</h1>
+            <p class="subtitle">Every Moment With You is Precious</p>
+        </header>
+
+        <div class="content-grid">
+            <div class="photo-frame">
+                <img src="images/1.jpg" alt="Our Memory 1">
+            </div>
+            <div class="photo-frame">
+                <img src="images/2.jp" alt="Our Memory 2">
+            </div>
+            <div class="photo-frame">
+                <img src="images/3.jp" alt="Our Memory 3">
+            </div>
+            <div class="photo-frame">
+                <img src="images/4.jpg" alt="Our Memory 4">
+            </div>
+            <div class="photo-frame">
+                <img src="images/5.jpg" alt="Our Memory 5">
+            </div>
+            <div class="photo-frame">
+                <img src="images/6.jpg" alt="Our Memory 6">
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="button" onclick="revealMessage()">Open My Heart</button>
+            <div id="secretMessage">
+                <p>My Dearest Melina ❤️</p>
+                <p>From the moment we met, my life transformed into a beautiful adventure. Your smile lights up my world, your laughter is my favorite melody, and your love is the greatest gift I've ever received. Every day with you feels like a page from a fairy tale, and I promise to cherish every moment we share.</p>
+                <p>You are my forever Valentine, my partner in all things, and the love of my life. Thank you for being you.</p>
+                <p>Forever Yours,<br>Krish Giri</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤';
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        function revealMessage() {
+            const message = document.getElementById('secretMessage');
+            const button = document.querySelector('.button');
+            
+            // Animate button
+            button.style.animation = 'heartBeat 0.5s ease';
+            setTimeout(() => {
+                button.style.display = 'none';
+                message.classList.add('revealed');
+                message.style.display = 'block';
+            }, 500);
+
+            // Enhanced confetti
+            for(let i = 0; i < 100; i++) {
+                setTimeout(() => createConfetti(), i * 10);
+            }
+
+            // Add romantic music
+            const audio = new Audio('https://s3.vocalremoveroak.com//input/origin/2024-12-01/yungkai-blueOfficialAudio.mp3');
+            audio.play();
+        }
+
+        function createConfetti() {
+            const shapes = ['❤', '❣', '💖', '•'];
+            const colors = ['#ff3366', '#ff6b6b', '#ff9999', '#ffffff'];
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.fontSize = Math.random() * 20 + 10 + 'px';
+            confetti.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+            confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear`;
+            confetti.style.zIndex = 9999;
+            document.body.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 5000);
+        }
+
+        // Initialize floating elements
+        createHearts();
+        
+        // Add keyframe animation for confetti
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                0% { transform: translateY(-100vh) rotate(0deg); }
+                100% { transform: translateY(100vh) rotate(720deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Animate floating texts
+        setInterval(() => {
+            const texts = document.querySelectorAll('.floating-text');
+            texts.forEach(text => {
+                text.style.left = Math.random() * 90 + '%';
+                text.style.animationDelay = Math.random() * 2 + 's';
+            });
+        }, 8000);
+
+        // Initialize floating texts
+        document.querySelectorAll('.floating-text').forEach(text => {
+            text.style.animationDelay = Math.random() * 8 + 's';
+        });
+    </script>
+</body>
+</html>
